@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/main.css">
+<link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+<title>CardGame</title>
+</head>
+<body>
+<form>
+    <div>
+        <img src="images/1.png">
+        <input type="radio" name="hand" value="0">ゴーレム<br>
+    </div>
+    <div>
+        <img src="images/2.png">
+        <input type="radio" name="hand" value="1">勇者<br>
+    </div>
+    <div>
+        <img src="images/3.png"><br>
+        <input type="radio" name="hand" value="2">賢者<br>
+    </div>
+    <button type="submit">Duel</button>
+</form>
+
+<div>
+<img src="images/1.png">
+<img src="images/2.png">
+</div>
+<p>結果</p>
+
+<script>
+//厳格モードでの実行
+'use strict';
+//対戦ラウンド
+let round=0;
+//画像の名前
+const picts=['g','y','k'];
+//結果の文言
+const results=['Draw','Lose','Win'];
+//formを取得(今回は一つしかないので[0])
+const form=document.forms[0];
+//img要素を取得(今回は２つあるので配列として取得)
+const images=document.querySelectorAll('img');
+//div要素を取得(今回は一つしかない 同意-> document.getElementsByTagName('div')[0])
+const imgBox=document.querySelector('div');
+//最初は非表示
+imgBox.style.display='none';
+//p要素を取得(今回は一つしかない)
+const result=document.querySelector('p');
+//最初は非表示
+result.style.display='none';
+result.style.display='none';
+result.style.display='none';
+//フォームにサブミットボタンを押したときの挙動を登録
+form.addEventListener('submit',function(eve){
+  //submitボタンを押した時にページ遷移するのを防ぐ
+  eve.preventDefault();
+  //ラジオのvalueはform.ネーム属性.valueで取得できる。それを整数に変換
+  let radioValue=form.hand.value;
+  //何も選択しなかった場合valueは空文字になる
+  if(radioValue===''){return;}
+  let userHand=Number(radioValue);
+  //Math.floorで小数点以下を切り捨て整数に変換
+  let pcHand=Math.floor((Math.random()*3));
+  //画像を決定
+  for(let i=0;i<images.length;i++){
+    images[i].src= 'images/' + picts[i==3? userHand:pcHand] + '.png';
+  }
+  //imgBox要素を表示
+  imgBox.style.display='flex';
+  //勝敗の文言の作成
+  //result.textContent=results[(userHand+3 -pcHand) % 3];
+  //文言の表示
+  result.style.display='block';
+});
+</script>
+</body>
+</html>
